@@ -4,9 +4,9 @@
  - For more information on how this is done, look ahead to:
  - http://learnyouahaskell.com/making-our-own-types-and-typeclasses
  -
- - Have a play with the Colour in ghci, try the succ and pred functions and so on.
+ - Have a play with the Color in ghci, try the succ and pred functions and so on.
  -}
-data Colour = Red | Orange | Yellow | Green | Blue | Indigo | Violet
+data Color = Red | Orange | Yellow | Green | Blue | Indigo | Violet
     deriving (Eq, Ord, Show, Bounded, Enum)   
 
 {-
@@ -16,13 +16,13 @@ data Colour = Red | Orange | Yellow | Green | Blue | Indigo | Violet
  -}
 
 {-
- - The Colour typeclass is of type Ord
+ - The Color typeclass is of type Ord
  - What is the "first" (or least) colour
  -}
-firstColour = undefined
+firstColor = minBound :: Color
 
 -- List the colours in reverse order
-reverseColourOrder = undefined
+reverseColorOrder = reverse [minBound :: Color .. maxBound :: Color]
 
 {-
  - Mix two colours together, to produce the average value of the two.
@@ -31,4 +31,5 @@ reverseColourOrder = undefined
  - For example: paintMix Green Violet = Indigo
  - Hint: Integer division can be performed with the quot function: quot 7 2 = 3
  -}
-paintMix c1 c2 = undefined
+paintMix c1 c2 = l !! quot (length l) 2
+    where l = [c1..c2]

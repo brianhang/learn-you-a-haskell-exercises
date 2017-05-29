@@ -1,7 +1,10 @@
 -- Raise x to the power y, using recursion
 -- For example, power 5 2 = 25
 power :: Int -> Int -> Int
-power x y = undefined
+power x y
+    | y < 0     = 0
+    | y == 0    = 1
+    | otherwise = power x (y - 1) * x
 
 -- create a list of length n of the fibbonaci sequence in reverse order
 -- examples: fib 0 = [0]
@@ -9,7 +12,10 @@ power x y = undefined
 --	     fib 10 = [55,34,21,13,8,5,3,2,1,1,0]	
 -- try to use a where clause
 fib :: (Num a, Eq a) => a -> [a]
-fib x = undefined
+fib x
+    | x == 0    = [0]
+    | x == 1    = [1, 0]
+    | otherwise = head (fib (x - 1)) + head (fib (x - 2)) : fib (x - 1)
 
 -- This is not recursive, but have a go anyway.
 -- Create a function which takes two parameters, a number and a step
@@ -18,7 +24,7 @@ fib x = undefined
 --			    stepReverseSign -3 1 = 4
 --			    stepReverseSign 1 2 = -3
 stepReverseSign :: (Fractional a, Ord a) => a -> a -> a
-stepReverseSign a = undefined
+stepReverseSign a s = (abs(a) + s) * (if a < 0 then 1 else (-1))
 
 {- Lets calculate pi.
  - The Leibniz formula for pi (http://en.wikipedia.org/wiki/Leibniz_formula_for_%CF%80)
@@ -52,8 +58,10 @@ stepReverseSign a = undefined
  -}
 
 piCalc :: (Fractional a, Integral b, Ord a) => a -> (a, b)
-piCalc a = undefined
+piCalc tolerance = piCalc' 1 0.0 tolerance 0
 
 piCalc' :: (Ord a, Fractional a, Integral b) => a -> a -> a -> b -> (a, b)
-piCalc' w x y z = undefined
-
+piCalc' denom x tolerance steps
+    | abs(x' - x) < tolerance = (x, steps) 
+    | otherwise               = piCalc' (stepReverseSign denom 2) x' tolerance (steps + 1)
+    where x' = x + (4 / denom)
